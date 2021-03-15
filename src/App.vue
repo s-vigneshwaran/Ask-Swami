@@ -1,5 +1,52 @@
 <template>
   <div id="app" class="container-fluid justify-content-center" :class="bg">
+    <div class="modal" :class="{ 'modal-visible' : feature}">
+      <div class="modal-content">
+        <h3 class="text-center">
+          Ask Swami Version 2.1.0 - 14 March release <br/>
+          Feature Updates
+          <svg @click="feature = false; modal = true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-x-circle-fill cursor" viewBox="0 0 16 16">
+            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
+          </svg>
+        </h3>
+        
+        <br />
+        <div class="row justify-content-center">
+          <div class="col-lg-4 col-sm-12">
+            <ol>
+              <li>
+                Adaptive Background
+              </li>
+
+              <li>
+                Fixed typographic errors
+              </li>
+
+              <li>
+                Adaptive Chit Images for some chits- Internet Required (still on beta)
+              </li>
+
+              <li>
+                Fixed known bugs
+              </li>
+            </ol>
+          </div>
+        </div>
+
+        <br />
+        <div class="row justify-content-center">
+          <div class="col-lg-4 col-sm-12">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" v-model="check" @click="setStorage">
+              <label class="form-check-label">
+                Do not show again
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
     <div class="modal" :class="{ 'modal-visible' : modal}">
       <div class="modal-content text-center">
         <h3>Select</h3>
@@ -27,7 +74,19 @@
         
         <div class="row">
           <div class="col">
-            Made with <span class="heart" style="color: #e25555;">&hearts;</span> by MDH campus
+            Made with <div class="heart" style="color: #e25555;">&hearts;</div> by MDH campus
+          </div>
+        </div>
+
+        <br/>
+        <div class="row">
+          <div class="col">
+            Fork or Pull @ 
+            <a href="https://github.com/vigneshwaran-dev/Ask-Swami"  target="_blank" rel="noopener noreferrer">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+              </svg>
+            </a>
           </div>
         </div>
 
@@ -55,12 +114,20 @@
               </svg>
             </a>
           </div>
+
+          <div class="col-sm-12">
+            M R Santhan
+          </div>
+
+          <div class="col-sm-12">
+            B Mahesh
+          </div>
         </div>
 
         <br />
         <div class="row">
           <p>
-            For further improvements, suggestions or code contributions please let us know.
+            For further improvements or suggestions please let us know by raising a issue on the repo.
           </p>
         </div>
       </div>
@@ -79,6 +146,10 @@
       <div class="col">
         <div class="card text-center">
           <div class="card-body">
+
+            <img class="adaptive-image" v-if="onLine && image !== ''" :src="image">
+            <br/>
+
             <h3 class="card-title">Swami says</h3>
             <br/>
             
@@ -100,120 +171,12 @@
 </template>
 
 <script>
+import chits from '@/chits.json';
+
 export default {
   name: "App",
   data() {
     return {
-      chits: [
-        "I have heard your prayers. Do not worry, I am blessing you with padanamaskar",
-        "Be optimistic, change the way you think. Think postively",
-        "Troubles are nothing but passing clouds",
-        "You have disappointed me",
-        "I have planned all my hopes on you",
-        "Yearn for me, I will come",
-        "Have patience and wait prayfully, your desires will be fulfilled",
-        "Have faith and devotion in God",
-        "I love you",
-        "Nothing is permanent. Do not get entangled in Maya",
-        "Do not bunk suprabatham",
-        "All the best",
-        "Forget and forgive",
-        "Hug and sweet kisses from Swami",
-        "I am testing you",
-        "You change your decision, I will see to it whether right or wrong",
-        "You are not alone, I am always with you",
-        "Do not take me for granted",
-        "I will protect you, just the way eyelashes protect the eyes",
-        "Do not cry, all is for your good only",
-        "Why fear when I am there to hold your hand and guide you",
-        "You can cheat others, not me",
-        "I am watching you, so be cautious of whatever you do",
-        "Study well with concentration",
-        "Hard work will be rewarded",
-        "Do not bunk food",
-        "I am pleased with you",
-        "Do your best and leave the rest to me",
-        "You are my very own dearer than dearer to me",
-        "Do not behave rudely/ artificially. Be simple. Why all these artificiality?",
-        "Follow my command",
-        "You are my treasure",
-        "You look cute today",
-        "Work hard for me now on, so that you don't have to repent later",
-        "You have hurt me",
-        "Always keep smiling",
-        "Call me, I will be waiting",
-        "Drink milk regularly",
-        "Do not doze during early morning",
-        "Be truthful to your self",
-        "Sing my glory with heart full of feelings",
-        "Learn to adjust in all circumstances",
-        "Keep mounam today",
-        "Read satcharitra",
-        "I have recieved your letter, I will send telegram to you",
-        "Take care of yourself, for I need you if others don't",
-        "Tell me your worries, I will solve the same",
-        "Learn to laugh in decent manner",
-        "Come my child! My arms are waiting for you. I can only give you the real love you need",
-        "Respect elders",
-        "Don't worry about your parents. They are under my protection",
-        "You chatterbox, reduce your unnecessary talks, for half of your energy is wasted by unnecessary talks. Can't you speak less?",
-        "Avoid bad company",
-        "You are a good girl today",
-        "Don't forget me in your happy times",
-        "Leave it, all these are not your busniness",
-        "Don't tease others",
-        "Don't waste anything",
-        "I am proud of you",
-        "Stop grumbling",
-        "You are my little child",
-        "Expect my dream",
-        "Don't care for marks, care for remarks",
-        "Be self-confident",
-        "Remove 'T' from cant",
-        "Understand others feelings",
-        "Don't get irritated",
-        "Don't expect anything",
-        "The difference between you and God is, 'if you don't remember God, God is always remembering you'",
-        "Dedicate every moment to me",
-        "Lazy, get up and do your work",
-        "I am not angry with you",
-        "Don't be harsh to anybody today",
-        "Control your temper",
-        "Don't waste your precious time",
-        "Do not fear, I will hold your hand and guide you",
-        "Don't think, this too shall pass away",
-        "Sai bangaru, always cheer up",
-        "Don't be overconfident",
-        "My blessings are always with you",
-        "The room is so messy, go and clean it up, keep your things properly",
-        "Be bold and courageous",
-        "You are right, go ahead",
-        "Take one step towards me, I will take hundered steps towards you",
-        "I will take care of your health",
-        "Don't care of peoples comment, you know what you are",
-        "I am waiting for you",
-        "Your tears sparkle in my eyes",
-        "God puts you in deep water, not to drown you but to cleanse you",
-        "I will never leave you",
-        "I know, I care, then why this unhappiness",
-        "Chant omkar properly. It will help you",
-        "Do not interfere in others matter",
-        "Don't hate anyone. If you don't like them, stay away from them",
-        "Try again, you will succeed this time",
-        "Prayers have immense power, so pray",
-        "Have vibuthi and everything wil be fine",
-        "Don't roam here and there and waste your precious time",
-        "Prayers have immense power, so pray",
-        "God has a plan for your life. That is all you need to know",
-        "Don't miss the oppurtunity given by me",
-        "When there is a will, there is a way",
-        "Never give up",
-        "Don't compare yourself with others",
-        "Don't be moody",
-        "Accept your mistake",
-        "Speak sweetly and softly",
-        "YOUR LIFE IS MY MESSAGE",
-      ],
       backgrounds: [
         "blue-yellow",
         "orange-yellow",
@@ -223,27 +186,26 @@ export default {
         "pink",
       ],
       bg: '',
+      image: 'https://www.sathyasai.org/imageperfect/big/149.jpg',
       chit: 'Pick your chit',
       female: true,
-      modal: true,
-      about: false
+      modal: false,
+      about: false,
+      feature: true,
+      check: false,
+      onLine:  navigator.onLine
     };
   },
 
   methods: {
     pick() {
-      this.chit = "";
-      this.randomBG();
+      this.chit = '';
       this.ringBell();
-
+      
       var number = Math.floor(Math.random() * (108 - 1 + 1) + 1);
-      this.chit = this.chits[number - 1];
-    },
-
-    randomBG() {
-      this.bg = this.backgrounds[
-        Math.floor(Math.random() * this.backgrounds.length)
-      ];
+      this.bg = chits[number - 1].bg;
+      this.chit = chits[number - 1].txt;
+      this.image = chits[number - 1].image;
     },
 
     ringBell(){
@@ -254,17 +216,48 @@ export default {
     selectGender(e){
       if(e.target.id === 'm'){
         this.female = false;
-        this.chits[53] = 'You are a good boy today';
+        chits[53].txt = 'You are a good boy today';
       }
 
       this.modal = false;
       document.getElementById('gayathri').volume = 0.1;
       document.getElementById('gayathri').play();
+    },
+
+    setStorage(){
+      if (this.check === false)
+        localStorage.setItem('feature', true);
+      else
+        localStorage.removeItem('feature');
+    },
+
+    updateOnlineStatus(e){
+      const { 
+        type
+      } = e;
+      this.onLine = type === 'online';
     }
   },
 
+  mounted() {
+    window.addEventListener('online', this.updateOnlineStatus);
+    window.addEventListener('offline', this.updateOnlineStatus);
+  },
+
+  beforeDestroy(){
+    window.removeEventListener('online', this.updateOnlineStatus);
+    window.removeEventListener('offline', this.updateOnlineStatus)
+  },
+
   created() {
-    this.randomBG();
+    if(localStorage.getItem('feature')) {
+      this.feature = false;
+      this.modal = true;
+    }
+
+    this.bg = this.backgrounds[
+        Math.floor(Math.random() * this.backgrounds.length)
+      ];
   },
 };
 </script>
@@ -309,33 +302,37 @@ export default {
 .card{
   background: white;
   width: 60%;
-  margin: 14% auto;
+  margin: 12% auto;
   padding: 10px;
 }
 
 @media (max-width: 767px) {
   .card {
-    margin: 65% auto;
+    margin: 40% auto;
     width: 80%;
   }
+}
+
+.adaptive-image {
+  max-width: 250px;
+  max-height: 180px;
 }
 
 .btn-font{
   color: white;
 }
 
-//modal
 .modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  display: none;
+  position: fixed;
+  z-index: 1;
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
 }
 
 .modal-visible {
@@ -352,6 +349,7 @@ export default {
 .heart {
 	animation: beat .25s infinite alternate;
 	transform-origin: center;
+  display: inline-block;
 }
 
 @keyframes beat{
